@@ -24,5 +24,16 @@ public class BookService {
 	public Optional<Book> findOne(Long id) {
 		return bookRepository.findById(id);
 	}
+	public Optional<Book> findOne(String title) {
+		return bookRepository.findByTitle(title);
+	}
+
+	public Book saveBook(Book book) {
+		return bookRepository.save(book);
+	}
+
+	public void deleteOne(Long id) {
+		bookRepository.deleteById(id);
+	}
 	
 }
