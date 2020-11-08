@@ -43,6 +43,14 @@ public class BookController {
         return results;
 
     }
+
+    @PostMapping("search-books")
+    public  List<Book> postSearchBooks(@RequestBody Book searchBook) {
+                
+        List<Book> results = bookService.searchBooks(searchBook.getTitle());
+        
+        return results;
+    }
     
 
     @DeleteMapping()
