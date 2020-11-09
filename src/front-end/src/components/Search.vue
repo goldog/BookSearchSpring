@@ -43,7 +43,8 @@ export default {
       isbn: '',
       keyValue: '',
       resModal: false,
-      showModal: false
+      showModal: false,
+      amazonData: []
     }
   },
   methods: {
@@ -76,10 +77,18 @@ export default {
           if (this.validateIsbn() == true)
           {
             axios.post('/api/amazon/search-books', { isbn: this.keyword } )
-            .then(res => { console.log(res.data) })
+            .then(response => { 
+              console.log(response.data);
+              this.amazonData = response.data;              
+              this.$emit('setAmazonBookList', this.amazonData)
+            })
           } else {
             axios.post('/api/amazon/search-books', { title: this.keyword } )
-            .then(res => { console.log(res.data) })
+            .then(response => { 
+              console.log(response.data);
+              this.amazonData = response.data;              
+              this.$emit('setAmazonBookList', this.amazonData)
+            })
           }
         }
       },
