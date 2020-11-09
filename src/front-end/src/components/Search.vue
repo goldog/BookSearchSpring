@@ -66,7 +66,7 @@ export default {
       },
       searchData() {
         if (this.keyword !== "") { 
-          axios.post('/api/search-books', { title: this.keyword } )
+          axios.post('/api/amazon/search-books', { title: this.keyword } )
           .then(res => { console.log(res.data) })
         }
       }
