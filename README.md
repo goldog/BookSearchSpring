@@ -1,9 +1,30 @@
 # BookSearchSpring
 스프링부트로 구현한 책 검색 백엔드 사이드
 
-## 일반적인 코드 
-코드는 입력됩니다.
+## H2 DB Table 정보
+- BOOK Table
+    ```
+    CREATE TABLE BOOK(ID INT AUTO_INCREMENT PRIMARY KEY, TITLE VARCHAR(255), AUTHOR VARCHAR(255), KOR_PRICE INT, USA_PRICE DECIMAL, ISBN VARCHAR(20));
+    ```
 
-    tab들여쓰기로 만들어진 code 입니다.
+- AMAZON_BOOK
+    ```
+    CREATE TABLE AMAZON_BOOK(ID INT AUTO_INCREMENT PRIMARY KEY, TITLE VARCHAR(255), AUTHOR VARCHAR(255), PRICE DECIMAL, ISBN VARCHAR(20));
+    
+    INSERT INTO AMAZON_BOOK VALUES(DEFAULT, 'Biscuit', 'Alyssa Satin Capucilli', 8.48, '9780064442121');
+    INSERT INTO AMAZON_BOOK VALUES(DEFAULT, 'Biscuit Goes to School (My First I Can Read)', 'Alyssa Satin Capucilli', 3.39, '9780064436168');
+    INSERT INTO AMAZON_BOOK VALUES(DEFAULT, 'Happy Thanksgiving, Biscuit!', 'Alyssa Satin Capucilli', 4.45, '9780694012213');
+    INSERT INTO AMAZON_BOOK VALUES(DEFAULT, 'Clifford''s Halloween', 'Norman Bridwell', 3.99, '9780545215954');
+    INSERT INTO AMAZON_BOOK VALUES(DEFAULT, 'Clifford''s Christmas', 'Norman Bridwell ', 4.99, '9780545215961');
+    ```
 
-일반적인 코드
+- DOMESTIC_BOOK
+    ```
+    CREATE TABLE DOMESTIC_BOOK(ID INT AUTO_INCREMENT PRIMARY KEY, TITLE VARCHAR(255), AUTHOR VARCHAR(255), PRICE DECIMAL, ISBN VARCHAR(20));
+
+    INSERT INTO DOMESTIC_BOOK VALUES(DEFAULT, 'Biscuit', 'Alyssa Satin Capucilli', 16500, '9780064442121');
+    INSERT INTO DOMESTIC_BOOK VALUES(DEFAULT, 'Biscuit Goes to School (My First I Can Read)', 'Alyssa Satin Capucilli', 8900, '9780064436168');
+    INSERT INTO DOMESTIC_BOOK VALUES(DEFAULT, 'Happy Thanksgiving, Biscuit!', 'Alyssa Satin Capucilli', 13000, '9780694012213');
+    INSERT INTO DOMESTIC_BOOK VALUES(DEFAULT, 'Clifford''s Halloween', 'Norman Bridwell', 4500, '9780545215954');
+    INSERT INTO DOMESTIC_BOOK VALUES(DEFAULT, 'Clifford''s Christmas', 'Norman Bridwell ', 3400, '9780545215961');
+    ```
