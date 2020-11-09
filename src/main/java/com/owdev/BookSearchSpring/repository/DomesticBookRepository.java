@@ -10,6 +10,7 @@ public interface DomesticBookRepository {
     Optional<DomesticBook> findById(Long id);
     Optional<DomesticBook> findByTitle(String title);
     List<DomesticBook> findAll();
-    void deleteById(Long id);
+    void deleteById(Long id);    
+    Optional<DomesticBook> findByIsbn(String isbn);
     
 }

@@ -32,5 +32,9 @@ public class DomesticBookService {
 	public void deleteOne(Long id) {
 		bookRepository.deleteById(id);
 	}
+
+	public Optional<DomesticBook> findBooksByIsbn(String isbn) {
+		return bookRepository.findByIsbn(isbn);
+	}
     
 }
