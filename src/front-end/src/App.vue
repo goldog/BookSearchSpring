@@ -1,14 +1,20 @@
 <template>
   <div id="app">
-    <Search v-on:setAmazonBookList="setAmazonBookList" msg="책 정보 검색"/>
-    <BookList></BookList>
+    <Search v-on:setAmazonBookList="setAmazonBookList" msg="책 가격 비교 검색"/>
+    <div class="list">
+      <AmazonBookList v-bind:propsdata="amazonBooks" ></AmazonBookList>
+    </div>
+    <div class="list">
+      <DomesticBookList></DomesticBookList>
+    </div>
   </div>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
 import Search from './components/Search.vue'
-import BookList from './components/BookList.vue'
+import AmazonBookList from './components/BookList.vue'
+import DomesticBookList from './components/DomesticBookList.vue'
 
 export default {
   name: 'App',
@@ -20,15 +26,12 @@ export default {
   },
   components: {
     Search, 
-    BookList
+    AmazonBookList,
+    DomesticBookList
   },
   methods: {
     setAmazonBookList(books) {
-      console.log('welcome setAmazonBookList, parameter is') 
-      console.log(books);
       this.amazonBooks = books;
-      console.log('amazonBooks is') 
-      console.log(this.amazonBooks);
     }
   }
 }
@@ -43,4 +46,22 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.list{
+  float: left;
+  margin: 20px;
+}
+  body {
+    text-align: center;
+    background-color: #F6F6F8;
+  }
+  /* input {
+    border-style: groove;
+    width: 200px;
+  } */
+  button {
+    border-style: groove;
+  }
+  .shadow {
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03)
+  }
 </style>
