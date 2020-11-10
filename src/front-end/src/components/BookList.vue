@@ -3,11 +3,19 @@
     <h3 v-if="propsdata.length > 0"> 검색 결과 </h3>
     <transition-group name="list" tag="ul">
       <li v-for="item in propsdata" :key="item.id" class="shadow">      
-        <label>
-        <input type="radio" class="checkradio" name="selectedbook">
-          {{ item.title }}, {{ item.isbn }}
+        <label  class="radio">
+          <input type="radio" name="selectedbook"/>
+          <span>
+            {{ item.title }}, 
+          </span>
         </label>  
       </li>
+      
+      <!-- <label class="radio" v-for="item in propsdata" v-bind:key="item.id">
+        <input type="radio" name="groupOne" />
+        <span>{{ item.title }}, {{ item.isbn }}</span>
+      </label> -->
+
     </transition-group>
   </section>
 </template>
@@ -30,7 +38,7 @@ export default {
   }
   li {
     display: flex;
-    min-height: 50px;
+    min-height: 0px;
     height: 50px;
     line-height: 50px;
     margin: 0.5rem 0;
@@ -38,44 +46,50 @@ export default {
     background: white;
     border-radius: 5px;
   }
-
   .list-enter-active, .list-leave-active {
     transition: all 1s;
   }
   .list-enter, .list-leave-to {
     opacity: 0;
     transform: translateY(30px);
+  }  
+  .radio {
+    margin-right: 20px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .radio input {
+    display: none;
+  }
+  .radio span {
+    display: block;
+    width: 500px;
+    min-width: 300px;
+    padding: 0px 0px 0px 25px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+    transition: all 0.25s linear;
+  }
+  .radio span:before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    -webkit-transform: translatey(-50%);
+            transform: translatey(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #ddd;
+    transition: all 0.25s linear;
   }
 
-  .checkradio {
-    padding: 0;
+  .radio input:checked + span {
+    color: blue;
+    border-color: blue;
   }
-  
-  input[type="radio"]:not(old){
-  width   : 10px;
-  margin  : 0;
-  padding : 0;
-  opacity : 0;
-}
-  label input {
-  display      : inline-block;
-  background-color: aqua;
-  line-height  : 24px;
-}
-  label input:checked {
-  display      : inline-block;
-  background-color: #de4343;
-}
-
-input[type="radio"]:not(old) + label {
-  display      : inline-block;
-  background-color: aqua;
-  line-height  : 24px;
-}
-
-input[type="radio"]:not(old):checked + label{
-  display      : inline-block;
-  background-color: #de4343;
-}
-
+  .radio input:checked + span:before {
+    background-color: blue;
+  }
 </style>
