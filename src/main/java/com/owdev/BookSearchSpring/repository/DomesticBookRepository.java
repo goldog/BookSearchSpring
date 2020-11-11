@@ -11,6 +11,6 @@ public interface DomesticBookRepository {
     Optional<DomesticBook> findByTitle(String title);
     List<DomesticBook> findAll();
     void deleteById(Long id);    
-    Optional<DomesticBook> findByIsbn(String isbn);
+    List<DomesticBook> findByIsbn(String isbn);
     
 }

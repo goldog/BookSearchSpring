@@ -1,95 +1,74 @@
 <template>
-  <section>      
-    <h3 v-if="propsdata.length > 0"> 검색 결과 </h3>
+  <section>
+    <div v-if="propsdata.length > 0" class="ex1">
+    <h3 >Amazon 도서 검색 결과</h3>    
+    <p v-if="selectedBook.isbn > 0">
+      선택 한 책의 ISBN: {{ selectedBook.isbn }}        
+      <button @click="searchData">국내 도서에서 찾기</button>
+    </p>
+    <p v-else>항목을 선택해줘요..</p>
     <transition-group name="list" tag="ul">
       <li v-for="item in propsdata" :key="item.id" class="shadow">      
-        <label  class="radio">
-          <input type="radio" name="selectedbook"/>
+        <label  class="radio blue">
+          <input type="radio" v-model="selectedBook" v-bind:value="item" name="selectedbookGroup1"/>
           <span>
-            {{ item.title }}, 
+            {{ item.title }}, {{ item.author}}, {{ getCurrcyStyle(item.price) }}
           </span>
         </label>  
       </li>
+    </transition-group>    
       
-      <!-- <label class="radio" v-for="item in propsdata" v-bind:key="item.id">
-        <input type="radio" name="groupOne" />
-        <span>{{ item.title }}, {{ item.isbn }}</span>
-      </label> -->
-
-    </transition-group>
+    </div>      
+    <div v-else>      
+      <h3>Amazon 도서 검색 결과</h3>
+      <h4>검색 결과가 없네요...</h4>
+    </div> 
   </section>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   props: ['propsdata'],
-//   data () {
-//       selectedBook: ''
-//   }
+  // 새로운 검색이 수행되면 선택된 책 정보를 초기화 함
+  watch: {
+    propsdata(){
+      this.selectedBook = []
+    },
+    // selectedBook() {      
+    //   this.$emit('setSelectedAmazonBook', []);
+    // }
+  },
+  data () {
+    return {
+      selectedBook: [],  
+      domesticBooks: [],
+    }
+  },
+  methods: {
+    searchData() {      
+      this.$emit('setSelectedAmazonBook', this.selectedBook);
+
+      this.domesticBooks = [];
+
+      axios.post('/api/domestic/search-books', { isbn: this.selectedBook.isbn } )
+            .then(response => { 
+              console.log(response.data);
+              this.domesticBooks = response.data;              
+              this.$emit('setDomesticBooks', this.domesticBooks)
+            })
+
+    },    
+    getCurrcyStyle(amount) {
+      return amount.toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                              });
+    }
+  }  
 }
 </script>
 
 <style scoped>
-  ul {
-    list-style-type: none;
-    padding-left: 0px;
-    margin-top: 0;
-    text-align: left;
-  }
-  li {
-    display: flex;
-    min-height: 0px;
-    height: 50px;
-    line-height: 50px;
-    margin: 0.5rem 0;
-    padding: 0 0.9rem;
-    background: white;
-    border-radius: 5px;
-  }
-  .list-enter-active, .list-leave-active {
-    transition: all 1s;
-  }
-  .list-enter, .list-leave-to {
-    opacity: 0;
-    transform: translateY(30px);
-  }  
-  .radio {
-    margin-right: 20px;
-    display: inline-block;
-    cursor: pointer;
-  }
-  .radio input {
-    display: none;
-  }
-  .radio span {
-    display: block;
-    width: 500px;
-    min-width: 300px;
-    padding: 0px 0px 0px 25px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    position: relative;
-    transition: all 0.25s linear;
-  }
-  .radio span:before {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    -webkit-transform: translatey(-50%);
-            transform: translatey(-50%);
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #ddd;
-    transition: all 0.25s linear;
-  }
-
-  .radio input:checked + span {
-    color: blue;
-    border-color: blue;
-  }
-  .radio input:checked + span:before {
-    background-color: blue;
-  }
 </style>

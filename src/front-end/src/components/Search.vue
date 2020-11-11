@@ -3,7 +3,7 @@
   <div class="input search keyword">
     <h1>{{ msg }}</h1>
     <p class="currency-rate info">
-      달러 환율 정보: $1 =  {{ currencyRate.toLocaleString('ko-KR', {
+      달러 환율 정보: $1.00 =  {{ currencyRate.toLocaleString('ko-KR', {
                                 style: 'currency',
                                 currency: 'KRW',
                               }) 

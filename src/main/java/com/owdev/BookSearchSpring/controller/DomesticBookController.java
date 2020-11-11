@@ -1,6 +1,5 @@
 package com.owdev.BookSearchSpring.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +27,14 @@ public class DomesticBookController {
     }
 
     @PostMapping("search-books")
-    public  Optional<DomesticBook> postSearchBooks(@RequestBody DomesticBook searchBook) {
-         
-        if (searchBook.getIsbn() != null && searchBook.getIsbn() != "" ) {
-            return bookService.findBooksByIsbn(searchBook.getIsbn());     
+    public  List<DomesticBook> postSearchBooks(@RequestBody DomesticBook searchBook) {
+        return bookService.findBooksByIsbn(searchBook.getIsbn());   
+        // if (searchBook.getIsbn() != null && searchBook.getIsbn() != "" ) {
+        //     return bookService.findBooksByIsbn(searchBook.getIsbn());     
 
-        }
-        else {
-            return Optional.empty();
-        }
+        // }
+        // else {
+        //     return Optional.empty();
+        // }
     }
 }
