@@ -7,9 +7,8 @@
                                 style: 'currency',
                                 currency: 'KRW',
                               }) 
-                            }}
-    </p>
-    
+                            }} (기준일: {{currencyDate}})
+    </p>   
     
     <p>
       <input type="text" size="40" v-model="keyword" placeholder="검색할 책의 제목 혹은 ISBN을 입력하세요" v-on:keypress.enter="searchData" >
@@ -47,69 +46,82 @@ export default {
       resModal: false,
       showModal: false,
       amazonData: [],
-      currencyRate: 1137
+      currencyRate: '',
+      currencyDate: ''
     }
   },
+  mounted() {
+    this.fetchCurrencyRate();
+
+  },
   methods: {
-      searchKeyword() {
-        if (this.keyword !== "") { 
-            var value = this.keyword && this.keyword.trim();
-            this.keyValue = value;
-            this.resModal = !this.resModal;
-            this.clearInput();
-        } else if (this.resModal == false) {
-            this.showModal = !this.showModal;
-        } else {
-            this.resModal = !this.resModal;
-        }
-      },
-      clearInput() {
-          this.keyword = ''
-      },
-      fetchData() {
-        axios.get('/api/books')
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+    fetchCurrencyRate() {
+      axios.get('https://api.exchangeratesapi.io/latest?base=USD' )
+        .then(response => { 
+          this.currencyRate = response.data.rates.KRW;   
+          this.currencyDate = response.data.date;                 
+          this.$emit('setCurrencyRate', this.currencyRate)
         });
-      },
-      searchData() {
-        if (this.keyword !== "") { 
-          if (this.validateIsbn() == true)
-          {
-            axios.post('/api/amazon/search-books', { isbn: this.keyword } )
-            .then(response => { 
-              console.log(response.data);
-              this.amazonData = response.data;              
-              this.$emit('setAmazonBookList', this.amazonData)
-            })
-          } else {
-            axios.post('/api/amazon/search-books', { title: this.keyword } )
-            .then(response => { 
-              console.log(response.data);
-              this.amazonData = response.data;              
-              this.$emit('setAmazonBookList', this.amazonData)
-            })
-          }
-        }
-      },
-      validateIsbn() {
-        var str = this.keyword.toString();
-        // Todo: 정규식으로 변경
-        if (str.startsWith('978') == true) {
-          return true;
+    },
+    searchKeyword() {
+      if (this.keyword !== "") { 
+          var value = this.keyword && this.keyword.trim();
+          this.keyValue = value;
+          this.resModal = !this.resModal;
+          this.clearInput();
+      } else if (this.resModal == false) {
+          this.showModal = !this.showModal;
+      } else {
+          this.resModal = !this.resModal;
+      }
+    },
+    clearInput() {
+        this.keyword = ''
+    },
+    fetchData() {
+      axios.get('/api/books')
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    },
+    searchData() {
+      if (this.keyword !== "") { 
+        if (this.validateIsbn() == true)
+        {
+          axios.post('/api/amazon/search-books', { isbn: this.keyword } )
+          .then(response => { 
+            console.log(response.data);
+            this.amazonData = response.data;              
+            this.$emit('setAmazonBookList', this.amazonData)
+          })
         } else {
-          return false;
-        }
-      },
-      searchDomesticData() {
-        if (this.isbn !== "") { 
-          axios.post('/api/domestic/search-books', { isbn: this.isbn } )
-          .then(res => { console.log(res.data) })
+          axios.post('/api/amazon/search-books', { title: this.keyword } )
+          .then(response => { 
+            console.log(response.data);
+            this.amazonData = response.data;              
+            this.$emit('setAmazonBookList', this.amazonData)
+          })
         }
       }
+    },
+    validateIsbn() {
+      var str = this.keyword.toString();
+      // Todo: 정규식으로 변경
+      if (str.startsWith('978') == true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    searchDomesticData() {
+      if (this.isbn !== "") { 
+        axios.post('/api/domestic/search-books', { isbn: this.isbn } )
+        .then(res => { console.log(res.data) })
+      }
+    }
   },
   components: {
     Modal: Modal

@@ -20,9 +20,9 @@ export default {
     message () {
       let diff = this.amazonPrice - this.domesticPrice;
       if (diff > 0){
-        return "국내도서가 " + this.getCurrcyStyle(diff) + " 더 쌉니다.";
+        return "국내도서가 약 " + this.getCurrcyStyle(diff) + " 더 쌉니다.";
       } else if (diff < 0){        
-        return "아마존 도서가 " + this.getCurrcyStyle(diff * -1) + " 더 쌉니다.";
+        return "아마존 도서가 약 " + this.getCurrcyStyle(diff * -1) + " 더 쌉니다.";
       } else{
         return "가격이 동일합니다."
       }

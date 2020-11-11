@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <Search v-on:setAmazonBookList="setAmazonBookList" msg="책 가격 비교 검색"/> 
+    <Search v-on:setAmazonBookList="setAmazonBookList"
+            v-on:setCurrencyRate="setCurrencyRate"
+            msg="책 가격 비교 검색"/> 
     <SearchResult v-bind:propsdata="[currencyRate, amazonSelectedBook, domesticSelectedBook]"></SearchResult>
     <div class="list left">
       <AmazonBookList v-bind:propsdata="amazonBooks" 
@@ -54,6 +56,9 @@ export default {
     },
     setSelectedDomesticBook(book){
       this.domesticSelectedBook = book;
+    },
+    setCurrencyRate(rate) {
+      this.currencyRate = rate;
     }
   }
 }
